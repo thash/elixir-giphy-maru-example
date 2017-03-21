@@ -29,7 +29,14 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
+# public beta API key
 config :giphy_ex, :api_key, "dc6zaTOxFJmzC"
 config :maru, GifGenerator.API, http: [port: 9830]
 
-# MyAPP.API,
+config :gif_generator,
+  generator: GifGenerator,
+  giphy: GiphyEx.Gifs,
+  http_client: HTTPoison
+
+# import prod/test/dev config files
+import_config "#{Mix.env}.exs"

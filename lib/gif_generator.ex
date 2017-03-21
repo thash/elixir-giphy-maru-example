@@ -1,23 +1,9 @@
 defmodule GifGenerator do
-  @moduledoc """
-  Documentation for GifGenerator.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> GifGenerator.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  # don't refer (mockable) modules directly.
+  @giphy Application.get_env(:gif_generator, :giphy)
+  @http_client Application.get_env(:gif_generator, :http_client)
 
   def generate(theme) do
-    # {:ok, <<1,2,3,4,5>>}
     with {:ok, url} <- image_url(theme),
          {:ok, binary} <- download_image(url) do
       {:ok, binary}
@@ -26,15 +12,14 @@ defmodule GifGenerator do
 
   def image_url(theme) do
     %{"data" => %{"image_url" => image_url}} =
-      GiphyEx.Gifs.random(theme)
+      @giphy.random(theme)
 
       {:ok, image_url}
   end
 
   def download_image(url) do
-    # {:ok, <<1,2,3,4,5>>}
     {:ok, %HTTPoison.Response{body: binary}} =
-      HTTPoison.get(url)
+      @http_client.get(url)
 
     {:ok, binary}
   end

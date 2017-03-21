@@ -7,6 +7,8 @@ defmodule GifGenerator.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     # https://hexdocs.pm/mix/Mix.Tasks.Compile.Elixir.html, https://gist.github.com/rickhull/6ed39b052ba86cba8db0
+     elixirc_paths: elixirc_paths(Mix.env),
      deps: deps()]
   end
 
@@ -33,4 +35,7 @@ defmodule GifGenerator.Mixfile do
       {:maru, "~> 0.11.4"}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end
